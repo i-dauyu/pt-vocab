@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>移住のポルトガル語 単語帳</title>
+<meta name="apple-mobile-web-app-title" content="ポ語単語帳">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7;
+    --surface-1: #fcfcfb;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --grid: #e1e0d9;
+    --border: rgba(11,11,11,0.10);
+    --series-1: #2a78d6;
+    --series-1-wash: rgba(42,120,214,0.10);
+    --up: #006300;
+    --down: #d03b3b;
+    --mid: #a06a00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --page: #0d0d0d;
+      --surface-1: #1a1a19;
+      --text-primary: #f0efec;
+      --text-secondary: #c3c2b7;
+      --text-muted: #898781;
+      --grid: #2c2c2a;
+      --border: rgba(255,255,255,0.10);
+      --series-1: #3987e5;
+      --series-1-wash: rgba(57,135,229,0.14);
+      --up: #0ca30c;
+      --down: #e66767;
+      --mid: #d9a441;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Hiragino Sans", "Segoe UI", sans-serif;
+    font-size: 15px; line-height: 1.5;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  h2 { font-size: 14px; margin: 24px 0 12px; color: var(--text-secondary); font-weight: 600; }
+  .sub { color: var(--text-secondary); margin: 0 0 20px; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  input { font: inherit; color: inherit; }
+  /* iPhone は16px未満の入力欄で画面が拡大される */
+  .search, .pick { font-size: 16px; }
+  [hidden] { display: none !important; }
+
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px;
+  }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .tile .label { color: var(--text-secondary); font-size: 12px; }
+  .tile .value { font-size: 24px; font-weight: 650; letter-spacing: -0.01em; }
+
+  .primary {
+    display: block; width: 100%; padding: 12px; border: 0; border-radius: 10px;
+    background: var(--series-1); color: #fff; font-weight: 600;
+  }
+  .primary:disabled { opacity: 0.45; cursor: default; }
+  .ghost {
+    border: 1px solid var(--border); background: var(--surface-1);
+    border-radius: 8px; padding: 6px 12px; color: var(--text-secondary);
+  }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface-1); }
+  .seg button { border: 0; background: transparent; color: var(--text-secondary); padding: 6px 12px; }
+  .seg button[aria-pressed="true"] { background: var(--series-1-wash); color: var(--text-primary); font-weight: 600; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin: 12px 0; }
+
+  .search {
+    width: 100%; padding: 9px 12px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface-1);
+  }
+
+  .cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .cat {
+    text-align: left; padding: 14px 16px; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--surface-1);
+  }
+  .cat:hover { border-color: var(--series-1); }
+  .cat strong { display: block; }
+  .cat small { display: block; color: var(--text-muted); font-size: 12px; min-height: 18px; }
+  .cat .meta { color: var(--text-secondary); font-size: 12px; margin-top: 8px; }
+  .progress { height: 6px; background: var(--grid); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+  .progress > div { height: 100%; background: var(--series-1); border-radius: 3px; }
+
+  .row {
+    display: grid; grid-template-columns: 36px 1fr; gap: 10px; align-items: start;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .row:last-child { border-bottom: 0; }
+  .row .pt { font-weight: 600; }
+  .row .ja { color: var(--text-secondary); font-size: 14px; }
+  .row .ex { color: var(--text-muted); font-size: 13px; margin-top: 2px; }
+  .row .ex button { vertical-align: 1px; }
+  .play {
+    width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
+    background: var(--series-1-wash); color: var(--series-1); font-size: 12px; padding: 0;
+  }
+  .play.small { width: 24px; height: 24px; font-size: 9px; margin-right: 4px; }
+
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .count { color: var(--text-muted); font-size: 13px; }
+
+  .flash { min-height: 330px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px 20px; }
+  .flash .main { font-size: 30px; font-weight: 650; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+  .flash .trans { font-size: 19px; color: var(--text-secondary); margin-top: 6px; }
+  .flash .hint { color: var(--text-muted); font-size: 13px; margin-top: 18px; }
+  .flash .example { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); width: 100%; }
+  .flash .example .ex-pt { font-size: 17px; }
+  .flash .example .ex-ja { color: var(--text-secondary); font-size: 14px; }
+  .flash .note { color: var(--text-muted); font-size: 13px; margin-top: 10px; }
+  .flash .audio { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
+  .flash .play.big { width: 48px; height: 48px; font-size: 16px; }
+
+  .rate { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .rate button { padding: 12px 4px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-1); font-weight: 600; }
+  .rate .again { color: var(--down); }
+  .rate .hard { color: var(--mid); }
+  .rate .good { color: var(--up); }
+  .keys { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 10px; }
+  @media (hover: none) { .keys { display: none; } }
+
+  .nav2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .nav2 .ghost { padding: 10px; font-weight: 600; color: var(--text-primary); }
+  .pick {
+    padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface-1); max-width: 100%;
+  }
+  .field { margin-bottom: 16px; }
+  .field > label, .field > .label { display: block; color: var(--text-secondary); font-size: 12px; margin-bottom: 6px; }
+
+  /* 一覧 */
+  .list-bar {
+    position: sticky; top: 0; z-index: 2; background: var(--page);
+    padding: 10px 0 8px; border-bottom: 1px solid var(--border);
+  }
+  .chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; }
+  .chips button { flex: none; font-size: 13px; padding: 4px 10px; }
+  .list-group { scroll-margin-top: 112px; }
+  .list-row {
+    display: grid; grid-template-columns: 28px 1fr 1fr; gap: 10px; align-items: baseline;
+    padding: 5px 0; border-bottom: 1px solid var(--border); cursor: default;
+  }
+  .list-row .play { width: 24px; height: 24px; font-size: 9px; align-self: center; }
+  .list-row .pt { font-weight: 600; }
+  .list-row .ja { color: var(--text-secondary); font-size: 14px; }
+  .list-row .ex { grid-column: 2 / -1; color: var(--text-muted); font-size: 13px; }
+  .list-row .known { color: var(--up); font-size: 12px; margin-left: 4px; }
+  .no-ex .list-row .ex { display: none; }
+  .hide-ja .list-row:not(.open) .ja { visibility: hidden; }
+  .hide-ja .list-row { cursor: pointer; }
+  @media (max-width: 480px) {
+    .list-row { grid-template-columns: 28px 1fr; gap: 0 10px; }
+    .list-row .ja, .list-row .ex { grid-column: 2; }
+  }
+
+  /* テスト */
+  .choices { display: grid; gap: 8px; margin-top: 12px; }
+  .choices button {
+    text-align: left; padding: 12px 14px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface-1);
+  }
+  .choices button:disabled { cursor: default; color: var(--text-muted); }
+  .choices .num { color: var(--text-muted); margin-right: 8px; font-size: 13px; }
+  .choices button.correct { border-color: var(--up); color: var(--up); font-weight: 600; }
+  .choices button.wrong { border-color: var(--down); color: var(--down); }
+  .spell { display: grid; gap: 8px; margin-top: 12px; }
+  .spell input {
+    width: 100%; padding: 12px; font-size: 18px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface-1);
+  }
+  .accents { display: flex; flex-wrap: wrap; gap: 4px; }
+  .accents button { width: 34px; height: 34px; padding: 0; }
+  .feedback { margin-top: 12px; }
+  .feedback .verdict { font-weight: 650; margin-bottom: 4px; }
+  .feedback .verdict.ok { color: var(--up); }
+  .feedback .verdict.ng { color: var(--down); }
+  .feedback .pt { font-size: 19px; font-weight: 650; }
+  .feedback .ja, .feedback .ex-ja { color: var(--text-secondary); font-size: 14px; }
+  .feedback .ex-pt { margin-top: 8px; }
+  .score { font-size: 40px; font-weight: 650; letter-spacing: -0.01em; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+    background: var(--text-primary); color: var(--page); padding: 8px 14px;
+    border-radius: 8px; font-size: 13px; max-width: 90%;
+  }
+</style>
+</head>
+<body>
+<main>
+  <section id="home">
+    <h1>移住のポルトガル語 単語帳</h1>
+    <p class="sub">ヨーロッパのポルトガル語で、暮らしの場面ごとに覚える</p>
+    <div class="tiles">
+      <div class="tile"><div class="label">今日の復習</div><div class="value" id="tDue">0</div></div>
+      <div class="tile"><div class="label">今日の新しい語</div><div class="value" id="tNew">0</div></div>
+      <div class="tile"><div class="label">覚えた語</div><div class="value" id="tKnown">0</div></div>
+    </div>
+    <button class="primary" id="startToday">今日の学習を始める</button>
+    <div class="nav2">
+      <button class="ghost" id="openList">全単語の一覧</button>
+      <button class="ghost" data-test-scope="all">テスト</button>
+    </div>
+    <div class="controls">
+      <div class="seg" id="modeSeg" role="group" aria-label="出題の形式">
+        <button data-mode="pt">ポ語を見る</button>
+        <button data-mode="ja">日本語から思い出す</button>
+        <button data-mode="ear">聞き取り</button>
+      </div>
+    </div>
+    <input class="search" id="search" type="search" placeholder="単語を探す（日本語でもポルトガル語でも）">
+    <div id="searchResults" class="card" hidden style="margin-top:10px"></div>
+    <div id="catsWrap">
+      <h2>場面から選ぶ</h2>
+      <div class="cats" id="cats"></div>
+    </div>
+  </section>
+
+  <section id="category" hidden>
+    <div class="top">
+      <button class="ghost" data-go-home>← もどる</button>
+      <span class="count" id="catCount"></span>
+    </div>
+    <h1 id="catName"></h1>
+    <p class="sub" id="catDesc"></p>
+    <button class="primary" id="startCat">この場面を学習する</button>
+    <div class="controls">
+      <button class="ghost" id="startCatAll">全部カードで見る</button>
+      <button class="ghost" id="testCat">この場面をテスト</button>
+    </div>
+    <div class="card" id="catList"></div>
+  </section>
+
+  <section id="study" hidden>
+    <div class="top">
+      <button class="ghost" id="quitStudy">← やめる</button>
+      <span class="count" id="studyCount"></span>
+    </div>
+    <div class="card flash" id="flash" tabindex="0"></div>
+    <div class="rate" id="rate" hidden>
+      <button class="again" data-rate="again">もう一度</button>
+      <button class="hard" data-rate="hard">あやふや</button>
+      <button class="good" data-rate="good">覚えた</button>
+    </div>
+    <button class="primary" id="reveal" style="margin-top:12px">答えを見る</button>
+    <div class="keys">スペース: 答え ／ 1・2・3: 評価 ／ P: 発音 ／ E: 例文 ／ S: ゆっくり切り替え</div>
+  </section>
+
+  <section id="list" hidden>
+    <div class="top">
+      <button class="ghost" data-go-home>← もどる</button>
+      <span class="count" id="listCount"></span>
+    </div>
+    <div class="list-bar">
+      <div class="chips" id="listChips"></div>
+      <div class="seg" role="group" aria-label="一覧の表示">
+        <button id="listToggleEx">例文を表示</button>
+        <button id="listToggleJa">訳を隠す</button>
+      </div>
+    </div>
+    <div id="listBody"></div>
+  </section>
+
+  <section id="testSetup" hidden>
+    <div class="top">
+      <button class="ghost" data-go-home>← もどる</button>
+    </div>
+    <h1>テスト</h1>
+    <p class="sub">結果は学習の復習予定には影響しません</p>
+    <div class="card">
+      <div class="field">
+        <label for="testScope">範囲</label>
+        <select class="pick" id="testScope"></select>
+      </div>
+      <div class="field">
+        <div class="label">形式</div>
+        <div class="seg" id="testFormatSeg" role="group" aria-label="テストの形式">
+          <button data-format="mean">意味を選ぶ</button>
+          <button data-format="pick">ポ語を選ぶ</button>
+          <button data-format="ear">聞いて選ぶ</button>
+          <button data-format="spell">つづりを書く</button>
+        </div>
+      </div>
+      <div class="field">
+        <div class="label">問題数</div>
+        <div class="seg" id="testCountSeg" role="group" aria-label="問題数">
+          <button data-count="10">10問</button>
+          <button data-count="20">20問</button>
+          <button data-count="50">50問</button>
+          <button data-count="0">全部</button>
+        </div>
+      </div>
+      <p class="count" id="testInfo"></p>
+      <button class="primary" id="startTest">テストを始める</button>
+    </div>
+  </section>
+
+  <section id="test" hidden>
+    <div class="top">
+      <button class="ghost" id="quitTest">← やめる</button>
+      <span class="count" id="testProgress"></span>
+    </div>
+    <div class="card flash" id="testPrompt" style="min-height:170px"></div>
+    <div id="testAnswer"></div>
+    <div class="card feedback" id="testFeedback" hidden></div>
+    <button class="primary" id="testNext" style="margin-top:12px" hidden>次へ</button>
+    <div class="keys" id="testKeys"></div>
+  </section>
+
+  <section id="testResult" hidden>
+    <div class="card" style="text-align:center;margin-bottom:12px">
+      <div class="score" id="testScore"></div>
+      <p class="sub" id="testScoreText" style="margin-bottom:12px"></p>
+      <button class="primary" id="retryWrong">間違えた語だけもう一度</button>
+      <div class="nav2">
+        <button class="ghost" id="backToSetup">別のテスト</button>
+        <button class="ghost" data-go-home>ホームへ</button>
+      </div>
+    </div>
+    <div id="testWrongWrap">
+      <h2>間違えた語</h2>
+      <div class="card" id="testWrongList"></div>
+    </div>
+  </section>
+
+  <section id="done" hidden>
+    <div class="card" style="text-align:center;padding:40px 20px">
+      <h1>おつかれさまでした</h1>
+      <p class="sub" id="doneText"></p>
+      <button class="primary" data-go-home>ホームへ</button>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script src="words.js"></script>
+<script>
+  const STORE_KEY = 'pt-vocab-v1';
+  const NEW_PER_DAY = 10;
+  const NEW_PER_SESSION = 10;
+  const INTERVALS = [1, 3, 7, 14, 30, 60];
+  const KNOWN_BOX = 3;
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const today = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+  const addDays = (n) => {
+    const d = new Date();
+    d.setDate(d.getDate() + n);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+  const shuffle = (list) => {
+    const a = [...list];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  // 語の一覧。進捗は読み上げ文から作った id で持つ
+  const CARDS = PT_CATEGORIES.flatMap((cat) => cat.words.map(([pt, ja, exPt, exJa, note]) => ({
+    id: ptAudioId(pt), cat: cat.id, pt, ja, exPt, exJa, note,
+  })));
+
+  let store = loadStore();
+  let session = null;
+  let test = null;
+
+  function loadStore() {
+    const empty = {
+      cards: {}, mode: 'pt', slow: false, newLog: {},
+      listEx: false, listHide: false, testFormat: 'mean', testCount: 10, testLog: {},
+    };
+    try {
+      return { ...empty, ...JSON.parse(localStorage.getItem(STORE_KEY)) };
+    } catch {
+      return empty;
+    }
+  }
+  function saveStore() {
+    localStorage.setItem(STORE_KEY, JSON.stringify(store));
+  }
+
+  const isDue = (c) => store.cards[c.id] && store.cards[c.id].due <= today();
+  const isNew = (c) => !store.cards[c.id];
+  const isKnown = (c) => store.cards[c.id] && store.cards[c.id].box >= KNOWN_BOX;
+  const newLeftToday = () => Math.max(0, NEW_PER_DAY - (store.newLog[today()] || 0));
+
+  /* 音声 */
+  const player = new Audio();
+  player.preload = 'auto';
+  let toastTimer;
+
+  function toast(message) {
+    $('toast').textContent = message;
+    $('toast').hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { $('toast').hidden = true; }, 3000);
+  }
+
+  // 音声ファイルが読めない時だけ端末の pt-PT の声を使う。ブラジルの声には落とさない
+  function speakFallback(text) {
+    const voice = speechSynthesis.getVoices().find((v) => v.lang.replace('_', '-') === 'pt-PT');
+    if (!voice) {
+      toast('音声ファイルが読み込めませんでした');
+      return;
+    }
+    const utterance = new SpeechSynthesisUtterance(ptSpoken(text));
+    utterance.voice = voice;
+    utterance.lang = 'pt-PT';
+    utterance.rate = store.slow ? 0.7 : 1;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utterance);
+  }
+
+  function play(text) {
+    player.onerror = () => speakFallback(text);
+    player.src = `audio/${ptAudioId(text)}.m4a`;
+    player.playbackRate = store.slow ? 0.75 : 1;
+    player.play().catch((err) => {
+      if (err.name !== 'AbortError') speakFallback(text);
+    });
+  }
+
+  /* 画面 */
+  function show(id) {
+    for (const name of ['home', 'category', 'study', 'done', 'list', 'testSetup', 'test', 'testResult']) $(name).hidden = name !== id;
+    window.scrollTo(0, 0);
+  }
+
+  function renderHome() {
+    const due = CARDS.filter(isDue).length;
+    $('tDue').textContent = due;
+    $('tNew').textContent = newLeftToday();
+    $('tKnown').textContent = `${CARDS.filter(isKnown).length}/${CARDS.length}`;
+    $('startToday').disabled = due + Math.min(newLeftToday(), CARDS.filter(isNew).length) === 0;
+    $('startToday').textContent = $('startToday').disabled ? '今日の分は終わりました' : '今日の学習を始める';
+    for (const btn of $('modeSeg').querySelectorAll('button')) {
+      btn.setAttribute('aria-pressed', String(btn.dataset.mode === store.mode));
+    }
+    $('cats').innerHTML = PT_CATEGORIES.map((cat) => {
+      const cards = CARDS.filter((c) => c.cat === cat.id);
+      const known = cards.filter(isKnown).length;
+      const dueHere = cards.filter(isDue).length;
+      return `<button class="cat" data-cat="${cat.id}">
+        <strong>${esc(cat.name)}</strong>
+        <small>${esc(cat.desc)}</small>
+        <div class="meta">${known}/${cards.length}語${dueHere ? ` ・ 復習 ${dueHere}` : ''}</div>
+        <div class="progress"><div style="width:${(known / cards.length) * 100}%"></div></div>
+      </button>`;
+    }).join('');
+    show('home');
+  }
+
+  function rowHtml(c) {
+    const example = c.exPt
+      ? `<div class="ex"><button class="play small" data-say="${esc(c.exPt)}" aria-label="例文を再生">▶</button>${esc(c.exPt)}　${esc(c.exJa)}</div>`
+      : '';
+    return `<div class="row">
+      <button class="play" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button>
+      <div>
+        <div class="pt">${esc(c.pt)}</div>
+        <div class="ja">${esc(c.ja)}</div>
+        ${example}
+      </div>
+    </div>`;
+  }
+
+  function openCategory(id) {
+    const cat = PT_CATEGORIES.find((c) => c.id === id);
+    const cards = CARDS.filter((c) => c.cat === id);
+    $('catName').textContent = cat.name;
+    $('catDesc').textContent = cat.desc;
+    $('catCount').textContent = `${cards.length}語`;
+    $('catList').innerHTML = cards.map(rowHtml).join('');
+    const queue = pickQueue(cards);
+    $('startCat').disabled = queue.length === 0;
+    $('startCat').textContent = queue.length ? `この場面を学習する（${queue.length}語）` : 'この場面の今日の分は終わりました';
+    $('startCat').onclick = () => startSession(pickQueue(cards));
+    $('startCatAll').onclick = () => startSession(shuffle(cards), true);
+    $('testCat').onclick = () => openTestSetup(id);
+    show('category');
+  }
+
+  /* 学習 */
+  function pickQueue(cards) {
+    const due = shuffle(cards.filter(isDue));
+    const fresh = cards.filter(isNew).slice(0, Math.min(NEW_PER_SESSION, newLeftToday()));
+    return [...due, ...fresh];
+  }
+
+  function startSession(queue, practice = false) {
+    if (!queue.length) return;
+    session = { queue, total: queue.length, practice, revealed: false };
+    show('study');
+    showCard();
+  }
+
+  function showCard() {
+    const c = session.queue[0];
+    session.revealed = false;
+    $('studyCount').textContent = `残り ${session.queue.length}`;
+    $('rate').hidden = true;
+    $('reveal').hidden = false;
+    const mode = store.mode;
+    if (mode === 'pt') {
+      $('flash').innerHTML = `<div class="main">${esc(c.pt)}</div>${audioButtons(c)}`;
+      play(c.pt);
+    } else if (mode === 'ja') {
+      $('flash').innerHTML = `<div class="main">${esc(c.ja)}</div><div class="hint">ポルトガル語で言ってみてから答えを見る</div>`;
+    } else {
+      $('flash').innerHTML = `<div class="hint" style="margin-top:0">聞こえた語の意味を考える</div>${audioButtons(c)}`;
+      play(c.pt);
+    }
+    $('flash').focus();
+  }
+
+  function audioButtons(c, withExample = false) {
+    return `<div class="audio">
+      <button class="play big" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button>
+      ${withExample && c.exPt ? `<button class="ghost" data-say="${esc(c.exPt)}">▶ 例文</button>` : ''}
+      <button class="ghost" data-slow aria-pressed="${store.slow}">${store.slow ? 'ゆっくり: オン' : 'ゆっくり: オフ'}</button>
+    </div>`;
+  }
+
+  function revealCard() {
+    if (session.revealed) return;
+    session.revealed = true;
+    const c = session.queue[0];
+    const example = c.exPt
+      ? `<div class="example"><div class="ex-pt">${esc(c.exPt)}</div><div class="ex-ja">${esc(c.exJa)}</div></div>`
+      : '';
+    const note = c.note ? `<div class="note">${esc(c.note)}</div>` : '';
+    $('flash').innerHTML = `<div class="main">${esc(c.pt)}</div><div class="trans">${esc(c.ja)}</div>${example}${note}${audioButtons(c, true)}`;
+    $('rate').hidden = false;
+    $('reveal').hidden = true;
+    if (store.mode === 'ja') play(c.pt);
+  }
+
+  function rateCard(rate) {
+    const c = session.queue.shift();
+    if (!session.practice) {
+      if (isNew(c)) store.newLog[today()] = (store.newLog[today()] || 0) + 1;
+      const state = store.cards[c.id] || { box: 0 };
+      if (rate === 'again') state.box = 0;
+      if (rate === 'good') state.box = Math.min(state.box + 1, INTERVALS.length - 1);
+      state.due = addDays(rate === 'hard' ? 1 : INTERVALS[state.box]);
+      store.cards[c.id] = state;
+      saveStore();
+    }
+    // 「もう一度」は数枚あとにもう一度出す
+    if (rate === 'again') session.queue.splice(Math.min(3, session.queue.length), 0, c);
+    if (session.queue.length) showCard();
+    else finishSession();
+  }
+
+  function finishSession() {
+    $('doneText').textContent = `${session.total}語を学習しました`;
+    session = null;
+    show('done');
+  }
+
+  /* 検索 */
+  function renderSearch() {
+    const q = $('search').value.trim().toLowerCase();
+    $('searchResults').hidden = !q;
+    $('catsWrap').hidden = Boolean(q);
+    if (!q) return;
+    const hits = CARDS.filter((c) => [c.pt, c.ja, c.exPt, c.exJa].some((s) => s && s.toLowerCase().includes(q)));
+    $('searchResults').innerHTML = hits.length ? hits.map(rowHtml).join('') : '<div class="count">見つかりませんでした</div>';
+  }
+
+  /* 一覧 */
+  function openList() {
+    $('listCount').textContent = `全${CARDS.length}語`;
+    $('listChips').innerHTML = PT_CATEGORIES.map((cat) => `<button class="ghost" data-jump="${cat.id}">${esc(cat.name)}</button>`).join('');
+    $('listBody').innerHTML = PT_CATEGORIES.map((cat) => `<div class="list-group" id="group-${cat.id}">
+      <h2>${esc(cat.name)}</h2>
+      ${CARDS.filter((c) => c.cat === cat.id).map(listRowHtml).join('')}
+    </div>`).join('');
+    applyListView();
+    show('list');
+  }
+
+  function listRowHtml(c) {
+    const example = c.exPt
+      ? `<div class="ex"><button class="play small" data-say="${esc(c.exPt)}" aria-label="例文を再生">▶</button>${esc(c.exPt)}　${esc(c.exJa)}</div>`
+      : '';
+    return `<div class="list-row">
+      <button class="play" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button>
+      <div class="pt">${esc(c.pt)}${isKnown(c) ? '<span class="known">✓</span>' : ''}</div>
+      <div class="ja">${esc(c.ja)}</div>
+      ${example}
+    </div>`;
+  }
+
+  function applyListView() {
+    $('listBody').classList.toggle('no-ex', !store.listEx);
+    $('listBody').classList.toggle('hide-ja', store.listHide);
+    $('listToggleEx').setAttribute('aria-pressed', String(store.listEx));
+    $('listToggleJa').setAttribute('aria-pressed', String(store.listHide));
+  }
+
+  /* テスト */
+  // 意味が近く、選択肢に並ぶと両方正解に見える語
+  const SIMILAR_WORDS = [
+    ['o NIF', 'o número de contribuinte'],
+    ['a marcação', 'o agendamento'],
+    ['o formulário', 'o requerimento', 'o pedido'],
+    ['a certidão', 'o comprovativo'],
+    ['arranjar', 'reparar', 'a reparação'],
+    ['avariado/a', 'estragado/a', 'não funciona'],
+    ['a dor de barriga', 'a barriga'],
+    ['o levantamento', 'levantar dinheiro'],
+    ['a fatura', 'o recibo'],
+    ['o seguro', 'o seguro de saúde'],
+    ['o ladrão', 'o carteirista'],
+    ['Socorro!', 'Ajude-me, por favor!', 'Preciso de ajuda.'],
+    ['lindo/a', 'bonito/a', 'giro/a', 'fixe', 'ótimo/a'],
+    ['A sério?', 'Não acredito!'],
+    ['Que bom!', 'Ainda bem.'],
+    ['Até à próxima.', 'Foi um prazer.'],
+    ['De onde é?', 'Qual é a sua terra?'],
+  ];
+  const baseJa = (c) => c.ja.replace(/（.*）/, '');
+  const isPhrase = (c) => /[.?!]$/.test(c.pt);
+  const areSimilar = (a, b) => baseJa(a) === baseJa(b) || SIMILAR_WORDS.some((g) => g.includes(a.pt) && g.includes(b.pt));
+
+  function pickDistractors(c) {
+    const fits = (x) => x.id !== c.id && isPhrase(x) === isPhrase(c) && !areSimilar(x, c);
+    const candidates = [...shuffle(CARDS.filter((x) => fits(x) && x.cat === c.cat)), ...shuffle(CARDS.filter(fits))];
+    const picked = [];
+    for (const x of candidates) {
+      if (picked.length === 3) break;
+      if (!picked.some((p) => areSimilar(p, x))) picked.push(x);
+    }
+    return picked;
+  }
+
+  const stripAccents = (s) => s.normalize('NFD').replace(/\p{M}/gu, '');
+  const normalizeSpelling = (s) => s.trim().toLowerCase().replace(/[.?!,]/g, '').replace(/\s+/g, ' ').replace(/^(o|a|os|as) /, '');
+
+  // 冠詞はなくても正解。/a の語は男性形・女性形のどちらでも正解
+  function checkSpelling(c, input) {
+    const given = normalizeSpelling(input);
+    const expected = normalizeSpelling(c.pt);
+    const stem = expected.replace('/a', '');
+    const answers = expected.includes('/a') ? [stem, stem.replace(/o$/, 'a')] : [expected];
+    if (answers.includes(given)) return { ok: true, note: '' };
+    if (answers.some((a) => stripAccents(a) === stripAccents(given))) {
+      return { ok: true, note: 'アクセント記号に注意' };
+    }
+    return { ok: false, note: '' };
+  }
+
+  function testPool(scope) {
+    if (scope === 'all') return CARDS;
+    if (scope === 'learned') return CARDS.filter((c) => store.cards[c.id]);
+    return CARDS.filter((c) => c.cat === scope);
+  }
+
+  function openTestSetup(scope = 'all') {
+    $('testScope').innerHTML = [
+      '<option value="all">全部の語</option>',
+      '<option value="learned">学習した語だけ</option>',
+      ...PT_CATEGORIES.map((cat) => `<option value="${cat.id}">${esc(cat.name)}</option>`),
+    ].join('');
+    $('testScope').value = scope;
+    renderTestSetup();
+    show('testSetup');
+  }
+
+  function renderTestSetup() {
+    const scope = $('testScope').value;
+    const pool = testPool(scope);
+    const count = store.testCount ? Math.min(store.testCount, pool.length) : pool.length;
+    const last = store.testLog[scope];
+    for (const btn of $('testFormatSeg').querySelectorAll('button')) {
+      btn.setAttribute('aria-pressed', String(btn.dataset.format === store.testFormat));
+    }
+    for (const btn of $('testCountSeg').querySelectorAll('button')) {
+      btn.setAttribute('aria-pressed', String(Number(btn.dataset.count) === store.testCount));
+    }
+    $('testInfo').textContent = pool.length
+      ? `${count}問を出題${last ? ` ／ 前回 ${last.score}/${last.total}（${last.date}）` : ''}`
+      : 'まだ学習した語がありません';
+    $('startTest').disabled = pool.length === 0;
+  }
+
+  function startTest(cards, scope) {
+    test = { cards, scope, format: store.testFormat, i: 0, wrong: [], options: [], answered: false };
+    show('test');
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const c = test.cards[test.i];
+    test.answered = false;
+    $('testProgress').textContent = `${test.i + 1} / ${test.cards.length}`;
+    $('testFeedback').hidden = true;
+    $('testNext').hidden = true;
+    const f = test.format;
+    if (f === 'ear') {
+      $('testPrompt').innerHTML = `<div class="audio" style="margin-top:0"><button class="play big" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button></div><div class="hint">聞こえた語の意味は？</div>`;
+    } else {
+      $('testPrompt').innerHTML = `<div class="main">${esc(f === 'mean' ? c.pt : c.ja)}</div>`;
+    }
+    if (f === 'spell') {
+      $('testAnswer').innerHTML = `<div class="spell">
+        <input id="spellInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="ポルトガル語で入力（冠詞はなくてもOK）" lang="pt-PT">
+        <div class="accents">${[...'áàâãçéêíóôõú'].map((ch) => `<button class="ghost" data-accent="${ch}">${ch}</button>`).join('')}</div>
+        <button class="primary" id="spellCheck">答え合わせ</button>
+      </div>`;
+      $('testKeys').textContent = 'Enter: 答え合わせ・次へ';
+      $('spellInput').focus();
+    } else {
+      test.options = shuffle([c, ...pickDistractors(c)]);
+      $('testAnswer').innerHTML = `<div class="choices">${test.options.map((o, i) => `<button data-choice="${i}"><span class="num">${i + 1}</span>${esc(f === 'pick' ? o.pt : o.ja)}</button>`).join('')}</div>`;
+      $('testKeys').textContent = '1〜4: 回答 ／ Enter: 次へ ／ P: 発音';
+    }
+    if (f === 'mean' || f === 'ear') play(c.pt);
+  }
+
+  function showFeedback(ok, note) {
+    const c = test.cards[test.i];
+    test.answered = true;
+    if (!ok) test.wrong.push(c);
+    const example = c.exPt
+      ? `<div class="ex-pt"><button class="play small" data-say="${esc(c.exPt)}" aria-label="例文を再生">▶</button>${esc(c.exPt)}</div><div class="ex-ja">${esc(c.exJa)}</div>`
+      : '';
+    $('testFeedback').innerHTML = `<div class="verdict ${ok ? 'ok' : 'ng'}">${ok ? '正解' : '不正解'}${note ? `（${esc(note)}）` : ''}</div>
+      <div class="pt"><button class="play small" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button>${esc(c.pt)}</div>
+      <div class="ja">${esc(c.ja)}</div>${example}`;
+    $('testFeedback').hidden = false;
+    $('testNext').hidden = false;
+    $('testNext').textContent = test.i + 1 < test.cards.length ? '次へ' : '結果を見る';
+    play(c.pt);
+  }
+
+  function answerChoice(index) {
+    if (test.answered || !test.options[index]) return;
+    const c = test.cards[test.i];
+    const buttons = [...$('testAnswer').querySelectorAll('button')];
+    buttons.forEach((btn, i) => {
+      btn.disabled = true;
+      if (test.options[i] === c) btn.classList.add('correct');
+      else if (i === index) btn.classList.add('wrong');
+    });
+    showFeedback(test.options[index] === c, '');
+  }
+
+  function answerSpelling() {
+    const input = $('spellInput');
+    if (test.answered || !input.value.trim()) return;
+    const { ok, note } = checkSpelling(test.cards[test.i], input.value);
+    input.disabled = true;
+    for (const btn of $('testAnswer').querySelectorAll('button')) btn.disabled = true;
+    showFeedback(ok, note);
+  }
+
+  function nextQuestion() {
+    if (!test.answered) return;
+    test.i++;
+    if (test.i < test.cards.length) showQuestion();
+    else finishTest();
+  }
+
+  function finishTest() {
+    const total = test.cards.length;
+    const score = total - test.wrong.length;
+    if (test.scope) {
+      store.testLog[test.scope] = { score, total, date: today() };
+      saveStore();
+    }
+    $('testScore').textContent = `${score} / ${total}`;
+    $('testScoreText').textContent = test.wrong.length ? `正答率 ${Math.round((score / total) * 100)}%` : '全問正解です';
+    $('testWrongList').innerHTML = test.wrong.map(rowHtml).join('');
+    $('testWrongWrap').hidden = test.wrong.length === 0;
+    $('retryWrong').hidden = test.wrong.length === 0;
+    const wrong = shuffle(test.wrong);
+    $('retryWrong').onclick = () => startTest(wrong, null);
+    test = null;
+    show('testResult');
+  }
+
+  function insertAccent(ch) {
+    const input = $('spellInput');
+    const start = input.selectionStart;
+    input.setRangeText(ch, start, input.selectionEnd, 'end');
+    input.focus();
+  }
+
+  /* 操作 */
+  document.addEventListener('click', (e) => {
+    const say = e.target.closest('[data-say]');
+    if (say) return play(say.dataset.say);
+    const cat = e.target.closest('[data-cat]');
+    if (cat) return openCategory(cat.dataset.cat);
+    if (e.target.closest('[data-go-home]')) return renderHome();
+    const scope = e.target.closest('[data-test-scope]');
+    if (scope) return openTestSetup(scope.dataset.testScope);
+    const jump = e.target.closest('[data-jump]');
+    if (jump) return $(`group-${jump.dataset.jump}`).scrollIntoView();
+    const format = e.target.closest('[data-format]');
+    if (format) {
+      store.testFormat = format.dataset.format;
+      saveStore();
+      return renderTestSetup();
+    }
+    const count = e.target.closest('[data-count]');
+    if (count) {
+      store.testCount = Number(count.dataset.count);
+      saveStore();
+      return renderTestSetup();
+    }
+    const choice = e.target.closest('[data-choice]');
+    if (choice) return answerChoice(Number(choice.dataset.choice));
+    const accent = e.target.closest('[data-accent]');
+    if (accent) return insertAccent(accent.dataset.accent);
+    if (e.target.closest('#spellCheck')) return answerSpelling();
+    const listRow = e.target.closest('.hide-ja .list-row');
+    if (listRow) return listRow.classList.toggle('open');
+    if (e.target.closest('[data-slow]')) return toggleSlow();
+    const mode = e.target.closest('[data-mode]');
+    if (mode) {
+      store.mode = mode.dataset.mode;
+      saveStore();
+      return renderHome();
+    }
+    const rate = e.target.closest('[data-rate]');
+    if (rate) rateCard(rate.dataset.rate);
+  });
+
+  function toggleSlow() {
+    store.slow = !store.slow;
+    saveStore();
+    for (const btn of document.querySelectorAll('[data-slow]')) {
+      btn.setAttribute('aria-pressed', String(store.slow));
+      btn.textContent = store.slow ? 'ゆっくり: オン' : 'ゆっくり: オフ';
+    }
+  }
+
+  $('startToday').onclick = () => {
+    const due = shuffle(CARDS.filter(isDue));
+    const fresh = CARDS.filter(isNew).slice(0, newLeftToday());
+    startSession([...due, ...fresh]);
+  };
+  $('reveal').onclick = revealCard;
+  $('quitStudy').onclick = () => { session = null; renderHome(); };
+  $('search').oninput = renderSearch;
+  $('openList').onclick = openList;
+  $('listToggleEx').onclick = () => { store.listEx = !store.listEx; saveStore(); applyListView(); };
+  $('listToggleJa').onclick = () => { store.listHide = !store.listHide; saveStore(); applyListView(); };
+  $('testScope').onchange = renderTestSetup;
+  $('startTest').onclick = () => {
+    const scope = $('testScope').value;
+    const pool = shuffle(testPool(scope));
+    startTest(store.testCount ? pool.slice(0, store.testCount) : pool, scope);
+  };
+  $('testNext').onclick = nextQuestion;
+  $('quitTest').onclick = () => { test = null; renderHome(); };
+  $('backToSetup').onclick = () => openTestSetup();
+
+  document.addEventListener('keydown', (e) => {
+    if (!test || e.metaKey || e.ctrlKey || e.altKey || e.isComposing) return;
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (test.answered) nextQuestion();
+      else if (test.format === 'spell') answerSpelling();
+    } else if (e.target.id !== 'spellInput') {
+      if (['1', '2', '3', '4'].includes(e.key)) answerChoice(Number(e.key) - 1);
+      else if (e.key === 'p' && (test.format === 'mean' || test.format === 'ear' || test.answered)) play(test.cards[test.i].pt);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!session || e.metaKey || e.ctrlKey || e.altKey) return;
+    const c = session.queue[0];
+    if (e.code === 'Space') {
+      e.preventDefault();
+      revealCard();
+    } else if (e.key === 'p' && (store.mode !== 'ja' || session.revealed)) {
+      play(c.pt);
+    } else if (e.key === 'e' && session.revealed && c.exPt) {
+      play(c.exPt);
+    } else if (e.key === 's') {
+      toggleSlow();
+    } else if (session.revealed && ['1', '2', '3'].includes(e.key)) {
+      rateCard(['again', 'hard', 'good'][Number(e.key) - 1]);
+    }
+  });
+
+  speechSynthesis.getVoices();
+  renderHome();
+</script>
+</body>
+</html>
