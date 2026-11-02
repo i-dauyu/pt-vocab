@@ -221,6 +221,11 @@
         <button data-mode="ja">日本語から思い出す</button>
         <button data-mode="ear">聞き取り</button>
       </div>
+      <div class="seg" id="speedSeg" role="group" aria-label="発音の速さ">
+        <button data-speed="0.7">ゆっくり</button>
+        <button data-speed="0.85">少しゆっくり</button>
+        <button data-speed="1">ふつう</button>
+      </div>
     </div>
     <input class="search" id="search" type="search" placeholder="単語を探す（日本語でもポルトガル語でも）">
     <div id="searchResults" class="card" hidden style="margin-top:10px"></div>
@@ -257,7 +262,7 @@
       <button class="good" data-rate="good">覚えた</button>
     </div>
     <button class="primary" id="reveal" style="margin-top:12px">答えを見る</button>
-    <div class="keys">スペース: 答え ／ 1・2・3: 評価 ／ P: 発音 ／ E: 例文 ／ S: ゆっくり切り替え</div>
+    <div class="keys">スペース: 答え ／ 1・2・3: 評価 ／ P: 発音 ／ E: 例文 ／ S: 速さ切り替え</div>
   </section>
 
   <section id="list" hidden>
@@ -354,6 +359,7 @@
   const NEW_PER_SESSION = 10;
   const INTERVALS = [1, 3, 7, 14, 30, 60];
   const KNOWN_BOX = 3;
+  const SPEEDS = [0.7, 0.85, 1];
 
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -386,7 +392,7 @@
 
   function loadStore() {
     const empty = {
-      cards: {}, mode: 'pt', slow: false, newLog: {},
+      cards: {}, mode: 'pt', speed: 0.85, newLog: {},
       listEx: false, listHide: false, testFormat: 'mean', testCount: 10, testLog: {},
     };
     try {
@@ -426,15 +432,16 @@
     const utterance = new SpeechSynthesisUtterance(ptSpoken(text));
     utterance.voice = voice;
     utterance.lang = 'pt-PT';
-    utterance.rate = store.slow ? 0.7 : 1;
+    utterance.rate = store.speed;
     speechSynthesis.cancel();
     speechSynthesis.speak(utterance);
   }
 
   function play(text) {
     player.onerror = () => speakFallback(text);
-    player.src = `audio/${ptAudioId(text)}.m4a`;
-    player.playbackRate = store.slow ? 0.75 : 1;
+    player.src = `${PT_AUDIO_DIR}/${ptAudioId(text)}.mp3`;
+    player.defaultPlaybackRate = store.speed;
+    player.playbackRate = store.speed;
     player.play().catch((err) => {
       if (err.name !== 'AbortError') speakFallback(text);
     });
@@ -456,6 +463,7 @@
     for (const btn of $('modeSeg').querySelectorAll('button')) {
       btn.setAttribute('aria-pressed', String(btn.dataset.mode === store.mode));
     }
+    renderSpeedSeg();
     $('cats').innerHTML = PT_CATEGORIES.map((cat) => {
       const cards = CARDS.filter((c) => c.cat === cat.id);
       const known = cards.filter(isKnown).length;
@@ -537,7 +545,7 @@
     return `<div class="audio">
       <button class="play big" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button>
       ${withExample && c.exPt ? `<button class="ghost" data-say="${esc(c.exPt)}">▶ 例文</button>` : ''}
-      <button class="ghost" data-slow aria-pressed="${store.slow}">${store.slow ? 'ゆっくり: オン' : 'ゆっくり: オフ'}</button>
+      <button class="ghost" data-speed-next>速さ ${store.speed}倍</button>
     </div>`;
   }
 
@@ -838,7 +846,12 @@
     if (e.target.closest('#spellCheck')) return answerSpelling();
     const listRow = e.target.closest('.hide-ja .list-row');
     if (listRow) return listRow.classList.toggle('open');
-    if (e.target.closest('[data-slow]')) return toggleSlow();
+    if (e.target.closest('[data-speed-next]')) return cycleSpeed();
+    const speed = e.target.closest('[data-speed]');
+    if (speed) {
+      setSpeed(Number(speed.dataset.speed));
+      return play('Bom dia.');
+    }
     const mode = e.target.closest('[data-mode]');
     if (mode) {
       store.mode = mode.dataset.mode;
@@ -849,12 +862,20 @@
     if (rate) rateCard(rate.dataset.rate);
   });
 
-  function toggleSlow() {
-    store.slow = !store.slow;
+  function setSpeed(speed) {
+    store.speed = speed;
     saveStore();
-    for (const btn of document.querySelectorAll('[data-slow]')) {
-      btn.setAttribute('aria-pressed', String(store.slow));
-      btn.textContent = store.slow ? 'ゆっくり: オン' : 'ゆっくり: オフ';
+    for (const btn of document.querySelectorAll('[data-speed-next]')) btn.textContent = `速さ ${speed}倍`;
+    renderSpeedSeg();
+  }
+
+  function cycleSpeed() {
+    setSpeed(SPEEDS[(SPEEDS.indexOf(store.speed) + 1) % SPEEDS.length]);
+  }
+
+  function renderSpeedSeg() {
+    for (const btn of $('speedSeg').querySelectorAll('button')) {
+      btn.setAttribute('aria-pressed', String(Number(btn.dataset.speed) === store.speed));
     }
   }
 
@@ -902,7 +923,7 @@
     } else if (e.key === 'e' && session.revealed && c.exPt) {
       play(c.exPt);
     } else if (e.key === 's') {
-      toggleSlow();
+      cycleSpeed();
     } else if (session.revealed && ['1', '2', '3'].includes(e.key)) {
       rateCard(['again', 'hard', 'good'][Number(e.key) - 1]);
     }

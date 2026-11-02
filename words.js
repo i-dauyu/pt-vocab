@@ -658,6 +658,9 @@ window.PT_CATEGORIES = [
   },
 ];
 
+// 音声ファイルの置き場所。声を変えるときは build-audio.mjs の VOICE と一緒に変える
+window.PT_AUDIO_DIR = 'audio-fernanda';
+
 // 音声にするときの読み方（略語はアルファベットで読ませる）
 const PT_SPOKEN_RULES = [
   [/\/a\b/g, ''],
