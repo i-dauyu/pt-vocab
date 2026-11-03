@@ -2,7 +2,9 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f2ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121315" media="(prefers-color-scheme: dark)">
 <title>移住のポルトガル語 単語帳</title>
 <meta name="apple-mobile-web-app-title" content="ポ語単語帳">
 <link rel="apple-touch-icon" href="icon.png">
@@ -10,269 +12,316 @@
 <style>
   :root {
     color-scheme: light;
-    --page: #f9f9f7;
-    --surface-1: #fcfcfb;
-    --text-primary: #0b0b0b;
-    --text-secondary: #52514e;
-    --text-muted: #898781;
-    --grid: #e1e0d9;
-    --border: rgba(11,11,11,0.10);
-    --series-1: #2a78d6;
-    --series-1-wash: rgba(42,120,214,0.10);
-    --up: #006300;
-    --down: #d03b3b;
-    --mid: #a06a00;
+    --page: #f5f2ea;
+    --surface: #fcfaf5;
+    --ink: #191a1c;
+    --ink-2: #5c5b56;
+    --ink-3: #8f8c83;
+    --line: rgba(25,26,28,0.11);
+    --accent: #1c4a8a;
+    --accent-wash: rgba(28,74,138,0.08);
+    --on-accent: #fcfaf5;
+    --up: #2d6a4f;
+    --down: #b3412f;
+    --mid: #9a6c24;
+    --shadow: 0 1px 2px rgba(25,26,28,0.04), 0 12px 32px rgba(25,26,28,0.06);
+    --serif: "Iowan Old Style", "Palatino", "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif;
+    --sans: system-ui, -apple-system, "Hiragino Sans", "Segoe UI", sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       color-scheme: dark;
-      --page: #0d0d0d;
-      --surface-1: #1a1a19;
-      --text-primary: #f0efec;
-      --text-secondary: #c3c2b7;
-      --text-muted: #898781;
-      --grid: #2c2c2a;
-      --border: rgba(255,255,255,0.10);
-      --series-1: #3987e5;
-      --series-1-wash: rgba(57,135,229,0.14);
-      --up: #0ca30c;
-      --down: #e66767;
-      --mid: #d9a441;
+      --page: #121315;
+      --surface: #1b1c1f;
+      --ink: #efece5;
+      --ink-2: #b9b6ad;
+      --ink-3: #85837b;
+      --line: rgba(239,236,229,0.12);
+      --accent: #8fb3e6;
+      --accent-wash: rgba(143,179,230,0.13);
+      --on-accent: #10192a;
+      --up: #6fbf95;
+      --down: #e58a7c;
+      --mid: #d9ad62;
+      --shadow: 0 12px 32px rgba(0,0,0,0.35);
     }
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; background: var(--page); color: var(--text-primary);
-    font-family: system-ui, -apple-system, "Hiragino Sans", "Segoe UI", sans-serif;
-    font-size: 15px; line-height: 1.5;
+    margin: 0; background: var(--page); color: var(--ink);
+    font-family: var(--sans); font-size: 15px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
   }
-  main { max-width: 760px; margin: 0 auto; padding: 32px 20px 64px; }
-  h1 { font-size: 20px; margin: 0 0 4px; }
-  h2 { font-size: 14px; margin: 24px 0 12px; color: var(--text-secondary); font-weight: 600; }
-  .sub { color: var(--text-secondary); margin: 0 0 20px; }
+  main { max-width: 720px; margin: 0 auto; padding: 36px 22px calc(104px + env(safe-area-inset-bottom)); }
+  h1 { font-family: var(--serif); font-size: 28px; font-weight: 600; line-height: 1.3; letter-spacing: 0.01em; margin: 0; }
+  h2 { font-family: var(--serif); font-size: 18px; font-weight: 600; margin: 36px 0 6px; }
+  .sub { color: var(--ink-2); margin: 6px 0 24px; }
+  .eyebrow { font-family: var(--serif); font-style: italic; color: var(--accent); font-size: 15px; margin-bottom: 4px; }
   button { font: inherit; color: inherit; cursor: pointer; }
-  input { font: inherit; color: inherit; }
+  input, select { font: inherit; color: inherit; }
   /* iPhone は16px未満の入力欄で画面が拡大される */
   .search, .pick { font-size: 16px; }
   [hidden] { display: none !important; }
 
-  .card {
-    background: var(--surface-1); border: 1px solid var(--border);
-    border-radius: 12px; padding: 20px;
-  }
-  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
-  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
-  .tile .label { color: var(--text-secondary); font-size: 12px; }
-  .tile .value { font-size: 24px; font-weight: 650; letter-spacing: -0.01em; }
-
   .primary {
-    display: block; width: 100%; padding: 12px; border: 0; border-radius: 10px;
-    background: var(--series-1); color: #fff; font-weight: 600;
+    display: block; width: 100%; padding: 15px; border: 0; border-radius: 12px;
+    background: var(--accent); color: var(--on-accent); font-weight: 600; letter-spacing: 0.02em;
   }
-  .primary:disabled { opacity: 0.45; cursor: default; }
+  .primary:disabled { background: var(--accent-wash); color: var(--ink-3); cursor: default; }
   .ghost {
-    border: 1px solid var(--border); background: var(--surface-1);
-    border-radius: 8px; padding: 6px 12px; color: var(--text-secondary);
+    border: 1px solid var(--line); background: transparent;
+    border-radius: 999px; padding: 7px 15px; color: var(--ink-2); font-size: 14px;
   }
-  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface-1); }
-  .seg button { border: 0; background: transparent; color: var(--text-secondary); padding: 6px 12px; }
-  .seg button[aria-pressed="true"] { background: var(--series-1-wash); color: var(--text-primary); font-weight: 600; }
-  .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin: 12px 0; }
+  .back { border: 0; background: none; padding: 4px 0; color: var(--ink-2); font-size: 14px; }
+  .count { color: var(--ink-3); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+  .actions .ghost { flex: 1; white-space: nowrap; padding: 10px 12px; }
 
-  .search {
-    width: 100%; padding: 9px 12px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--surface-1);
+  .seg {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px;
+    padding: 3px; border-radius: 11px; background: var(--accent-wash);
   }
-
-  .cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
-  .cat {
-    text-align: left; padding: 14px 16px; border-radius: 12px;
-    border: 1px solid var(--border); background: var(--surface-1);
-  }
-  .cat:hover { border-color: var(--series-1); }
-  .cat strong { display: block; }
-  .cat small { display: block; color: var(--text-muted); font-size: 12px; min-height: 18px; }
-  .cat .meta { color: var(--text-secondary); font-size: 12px; margin-top: 8px; }
-  .progress { height: 6px; background: var(--grid); border-radius: 3px; margin-top: 6px; overflow: hidden; }
-  .progress > div { height: 100%; background: var(--series-1); border-radius: 3px; }
-
-  .row {
-    display: grid; grid-template-columns: 36px 1fr; gap: 10px; align-items: start;
-    padding: 10px 0; border-bottom: 1px solid var(--border);
-  }
-  .row:last-child { border-bottom: 0; }
-  .row .pt { font-weight: 600; }
-  .row .ja { color: var(--text-secondary); font-size: 14px; }
-  .row .ex { color: var(--text-muted); font-size: 13px; margin-top: 2px; }
-  .row .ex button { vertical-align: 1px; }
-  .play {
-    width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
-    background: var(--series-1-wash); color: var(--series-1); font-size: 12px; padding: 0;
-  }
-  .play.small { width: 24px; height: 24px; font-size: 9px; margin-right: 4px; }
-
-  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
-  .count { color: var(--text-muted); font-size: 13px; }
-
-  .flash { min-height: 330px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px 20px; }
-  .flash .main { font-size: 30px; font-weight: 650; letter-spacing: -0.01em; overflow-wrap: anywhere; }
-  .flash .trans { font-size: 19px; color: var(--text-secondary); margin-top: 6px; }
-  .flash .hint { color: var(--text-muted); font-size: 13px; margin-top: 18px; }
-  .flash .example { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); width: 100%; }
-  .flash .example .ex-pt { font-size: 17px; }
-  .flash .example .ex-ja { color: var(--text-secondary); font-size: 14px; }
-  .flash .note { color: var(--text-muted); font-size: 13px; margin-top: 10px; }
-  .flash .audio { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
-  .flash .play.big { width: 48px; height: 48px; font-size: 16px; }
-
-  .rate { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
-  .rate button { padding: 12px 4px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-1); font-weight: 600; }
-  .rate .again { color: var(--down); }
-  .rate .hard { color: var(--mid); }
-  .rate .good { color: var(--up); }
-  .keys { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 10px; }
-  @media (hover: none) { .keys { display: none; } }
-
-  .nav2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
-  .nav2 .ghost { padding: 10px; font-weight: 600; color: var(--text-primary); }
+  .seg.two { grid-auto-flow: row; grid-template-columns: 1fr 1fr; }
+  .seg button { border: 0; background: transparent; color: var(--ink-2); padding: 9px 6px; border-radius: 9px; font-size: 14px; }
+  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px rgba(25,26,28,0.1); }
+  .field { margin-bottom: 26px; }
+  .field > label, .field > .label { display: block; color: var(--ink-2); font-size: 13px; margin-bottom: 8px; }
   .pick {
-    padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border);
-    background: var(--surface-1); max-width: 100%;
+    width: 100%; padding: 11px 12px; border-radius: 11px;
+    border: 0; background: var(--accent-wash);
   }
-  .field { margin-bottom: 16px; }
-  .field > label, .field > .label { display: block; color: var(--text-secondary); font-size: 12px; margin-bottom: 6px; }
 
-  /* 一覧 */
-  .list-bar {
-    position: sticky; top: 0; z-index: 2; background: var(--page);
-    padding: 10px 0 8px; border-bottom: 1px solid var(--border);
+  /* ホーム */
+  .masthead { margin-bottom: 26px; }
+  .today {
+    background: var(--surface); border-radius: 20px; padding: 24px 24px 22px; box-shadow: var(--shadow);
   }
-  .chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; }
-  .chips button { flex: none; font-size: 13px; padding: 4px 10px; }
-  .list-group { scroll-margin-top: 112px; }
-  .list-row {
-    display: grid; grid-template-columns: 28px 1fr 1fr; gap: 10px; align-items: baseline;
-    padding: 5px 0; border-bottom: 1px solid var(--border); cursor: default;
+  .today-main { display: flex; align-items: baseline; gap: 10px; }
+  .today-num { font-family: var(--serif); font-size: 60px; line-height: 1; font-weight: 500; color: var(--accent); font-variant-numeric: lining-nums; }
+  .today-label { color: var(--ink-2); }
+  .today-meta { display: flex; gap: 28px; margin: 14px 0 20px; font-size: 13px; color: var(--ink-2); }
+  .today-meta b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; margin-left: 5px; }
+  .search {
+    width: 100%; margin-top: 26px; padding: 11px 2px; border: 0; border-bottom: 1px solid var(--line);
+    background: transparent; border-radius: 0; outline: none; -webkit-appearance: none; appearance: none;
   }
-  .list-row .play { width: 24px; height: 24px; font-size: 9px; align-self: center; }
-  .list-row .pt { font-weight: 600; }
-  .list-row .ja { color: var(--text-secondary); font-size: 14px; }
-  .list-row .ex { grid-column: 2 / -1; color: var(--text-muted); font-size: 13px; }
-  .list-row .known { color: var(--up); font-size: 12px; margin-left: 4px; }
+  .search:focus { border-bottom-color: var(--accent); }
+  .search::placeholder { color: var(--ink-3); }
+  .cats { display: grid; grid-template-columns: 1fr; column-gap: 32px; }
+  @media (min-width: 620px) { .cats { grid-template-columns: 1fr 1fr; } }
+  .cat {
+    display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 2px 12px;
+    width: 100%; padding: 14px 0 0; border: 0; background: none; text-align: left;
+  }
+  .cat-name { font-weight: 500; }
+  .cat:hover .cat-name { color: var(--accent); }
+  .cat-meta { color: var(--ink-3); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .cat-due { color: var(--accent); margin-right: 8px; }
+  .cat-bar { grid-column: 1 / -1; height: 2px; margin-top: 6px; background: var(--line); border-radius: 1px; overflow: hidden; }
+  .cat-bar > i { display: block; height: 100%; background: var(--accent); }
+
+  /* 語の一覧 */
+  .play {
+    position: relative; flex: none; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 50%;
+    background: var(--accent-wash); vertical-align: middle;
+  }
+  .play::before {
+    content: ""; position: absolute; left: 50%; top: 50%; width: 9px; height: 10px; transform: translate(-40%, -50%);
+    background: var(--accent); clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+  .play.small { width: 22px; height: 22px; margin-right: 6px; }
+  .play.small::before { width: 7px; height: 8px; }
+  .play.big { width: 56px; height: 56px; }
+  .play.big::before { width: 15px; height: 17px; }
+  .rows { margin-top: 8px; }
+  .row, .list-row {
+    display: grid; grid-template-columns: 30px 1fr 1fr; gap: 2px 12px; align-items: center;
+    padding: 11px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere;
+  }
+  .row .pt, .list-row .pt { font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1.35; }
+  .row .ja, .list-row .ja { color: var(--ink-2); font-size: 14px; }
+  .row .ex, .list-row .ex { grid-column: 2 / -1; color: var(--ink-3); font-size: 13px; margin-top: 4px; }
+  .row .ex-ja, .list-row .ex-ja { display: block; padding-left: 28px; }
+  .list-row { padding: 8px 0; }
+  .list-row .known { color: var(--up); font-family: var(--sans); font-size: 12px; margin-left: 5px; }
   .no-ex .list-row .ex { display: none; }
   .hide-ja .list-row:not(.open) .ja { visibility: hidden; }
   .hide-ja .list-row { cursor: pointer; }
-  @media (max-width: 480px) {
-    .list-row { grid-template-columns: 28px 1fr; gap: 0 10px; }
-    .list-row .ja, .list-row .ex { grid-column: 2; }
+  .list-bar { position: sticky; top: 0; z-index: 2; margin: 14px -22px 0; padding: 10px 22px 10px; background: var(--page); border-bottom: 1px solid var(--line); }
+  .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 -22px 8px; padding: 0 22px; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips button { flex: none; font-size: 13px; padding: 5px 12px; }
+  .toggles { display: flex; gap: 16px; }
+  .toggles button { border: 0; background: none; padding: 2px 0; color: var(--ink-3); font-size: 13px; }
+  .toggles button[aria-pressed="true"] { color: var(--accent); font-weight: 600; }
+  .list-group { scroll-margin-top: 104px; }
+
+  /* トラック */
+  .track {
+    display: flex; align-items: center; gap: 14px; margin: 22px 0 8px; padding: 14px 16px;
+    background: var(--surface); border-radius: 16px; box-shadow: var(--shadow);
   }
+  .track-toggle { position: relative; flex: none; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 50%; background: var(--accent); }
+  .track-toggle::before {
+    content: ""; position: absolute; left: 50%; top: 50%; width: 13px; height: 15px; transform: translate(-40%, -50%);
+    background: var(--on-accent); clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+  .track-toggle.playing::before {
+    width: 13px; height: 14px; transform: translate(-50%, -50%);
+    clip-path: polygon(0 0, 36% 0, 36% 100%, 0 100%, 0 0, 64% 0, 100% 0, 100% 100%, 64% 100%, 64% 0);
+  }
+  .track-body { flex: 1; min-width: 0; }
+  .track-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .track-title { font-weight: 600; font-size: 14px; }
+  .track-flow { color: var(--ink-3); font-size: 12px; white-space: nowrap; }
+  .track-seek { display: block; width: 100%; height: 18px; margin: 2px 0; accent-color: var(--accent); }
+  .track-time { display: flex; justify-content: space-between; color: var(--ink-3); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+  /* 学習カード */
+  .bar { flex: 1; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.25s ease; }
+  .flash {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    min-height: 340px; padding: 32px 24px; outline: none;
+    background: var(--surface); border-radius: 20px; box-shadow: var(--shadow);
+  }
+  .flash.short { min-height: 180px; }
+  .flash .main { font-family: var(--serif); font-size: 34px; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+  .flash .trans { font-size: 18px; color: var(--ink-2); margin-top: 8px; }
+  .flash .hint { color: var(--ink-3); font-size: 13px; margin-top: 18px; }
+  .flash .example { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); width: 100%; }
+  .flash .example .ex-pt { font-family: var(--serif); font-size: 18px; line-height: 1.4; }
+  .flash .example .ex-ja { color: var(--ink-2); font-size: 14px; margin-top: 2px; }
+  .flash .note { color: var(--ink-3); font-size: 13px; margin-top: 12px; }
+  .flash .audio { display: flex; gap: 8px; margin-top: 20px; align-items: center; justify-content: center; flex-wrap: wrap; }
+  .rate { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+  .rate button { padding: 14px 4px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; }
+  .rate .again { color: var(--down); }
+  .rate .hard { color: var(--mid); }
+  .rate .good { color: var(--up); }
+  .keys { text-align: center; color: var(--ink-3); font-size: 12px; margin-top: 14px; }
+  @media (hover: none) { .keys { display: none; } }
 
   /* テスト */
-  .choices { display: grid; gap: 8px; margin-top: 12px; }
+  .choices { display: grid; gap: 8px; margin-top: 14px; }
   .choices button {
-    text-align: left; padding: 12px 14px; border-radius: 10px;
-    border: 1px solid var(--border); background: var(--surface-1);
+    text-align: left; padding: 14px 16px; border-radius: 12px;
+    border: 1px solid var(--line); background: var(--surface); overflow-wrap: anywhere;
   }
-  .choices button:disabled { cursor: default; color: var(--text-muted); }
-  .choices .num { color: var(--text-muted); margin-right: 8px; font-size: 13px; }
+  .choices button:disabled { cursor: default; color: var(--ink-3); }
+  .choices .num { color: var(--ink-3); margin-right: 10px; font-size: 13px; }
   .choices button.correct { border-color: var(--up); color: var(--up); font-weight: 600; }
   .choices button.wrong { border-color: var(--down); color: var(--down); }
-  .spell { display: grid; gap: 8px; margin-top: 12px; }
+  .spell { display: grid; gap: 10px; margin-top: 14px; }
   .spell input {
-    width: 100%; padding: 12px; font-size: 18px; border-radius: 10px;
-    border: 1px solid var(--border); background: var(--surface-1);
+    width: 100%; padding: 14px; font-family: var(--serif); font-size: 19px; border-radius: 12px;
+    border: 1px solid var(--line); background: var(--surface); outline: none;
   }
+  .spell input:focus { border-color: var(--accent); }
   .accents { display: flex; flex-wrap: wrap; gap: 4px; }
-  .accents button { width: 34px; height: 34px; padding: 0; }
-  .feedback { margin-top: 12px; }
-  .feedback .verdict { font-weight: 650; margin-bottom: 4px; }
+  .accents button { width: 36px; height: 36px; padding: 0; font-family: var(--serif); font-size: 16px; }
+  .feedback { margin-top: 14px; padding: 18px 20px; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow); }
+  .feedback .verdict { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
   .feedback .verdict.ok { color: var(--up); }
   .feedback .verdict.ng { color: var(--down); }
-  .feedback .pt { font-size: 19px; font-weight: 650; }
-  .feedback .ja, .feedback .ex-ja { color: var(--text-secondary); font-size: 14px; }
-  .feedback .ex-pt { margin-top: 8px; }
-  .score { font-size: 40px; font-weight: 650; letter-spacing: -0.01em; }
+  .feedback .pt { font-family: var(--serif); font-size: 21px; font-weight: 600; }
+  .feedback .ja, .feedback .ex-ja { color: var(--ink-2); font-size: 14px; }
+  .feedback .ex-pt { font-family: var(--serif); margin-top: 10px; }
+  .result { text-align: center; padding: 28px 0 8px; }
+  .score { font-family: var(--serif); font-size: 56px; font-weight: 500; line-height: 1.1; color: var(--accent); }
+  .nav2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .nav2 .ghost { padding: 11px; color: var(--ink); }
+
+  /* 下のタブ */
+  .tabs {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 3;
+    display: flex; justify-content: center;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--page); border-top: 1px solid var(--line);
+  }
+  .tabs button { flex: 1; max-width: 180px; padding: 15px 4px; border: 0; background: none; color: var(--ink-3); font-size: 13px; }
+  .tabs button[aria-current="page"] { color: var(--accent); font-weight: 600; }
 
   .toast {
-    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
-    background: var(--text-primary); color: var(--page); padding: 8px 14px;
-    border-radius: 8px; font-size: 13px; max-width: 90%;
+    position: fixed; left: 50%; bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 4; transform: translateX(-50%);
+    background: var(--ink); color: var(--page); padding: 9px 15px;
+    border-radius: 10px; font-size: 13px; max-width: 90%;
   }
 </style>
 </head>
 <body>
 <main>
   <section id="home">
-    <h1>移住のポルトガル語 単語帳</h1>
-    <p class="sub">ヨーロッパのポルトガル語で、暮らしの場面ごとに覚える</p>
-    <div class="tiles">
-      <div class="tile"><div class="label">今日の復習</div><div class="value" id="tDue">0</div></div>
-      <div class="tile"><div class="label">今日の新しい語</div><div class="value" id="tNew">0</div></div>
-      <div class="tile"><div class="label">覚えた語</div><div class="value" id="tKnown">0</div></div>
-    </div>
-    <button class="primary" id="startToday">今日の学習を始める</button>
-    <div class="nav2">
-      <button class="ghost" id="openList">全単語の一覧</button>
-      <button class="ghost" data-test-scope="all">テスト</button>
-    </div>
-    <div class="controls">
-      <div class="seg" id="modeSeg" role="group" aria-label="出題の形式">
-        <button data-mode="pt">ポ語を見る</button>
-        <button data-mode="ja">日本語から思い出す</button>
-        <button data-mode="ear">聞き取り</button>
+    <header class="masthead">
+      <div class="eyebrow">Português de Portugal</div>
+      <h1>移住のポルトガル語</h1>
+    </header>
+    <div class="today">
+      <div class="today-main"><span class="today-num" id="tTotal">0</span><span class="today-label">語が今日の学習です</span></div>
+      <div class="today-meta">
+        <span>復習<b id="tDue">0</b></span>
+        <span>新しい語<b id="tNew">0</b></span>
+        <span>覚えた語<b id="tKnown">0</b></span>
       </div>
-      <div class="seg" id="speedSeg" role="group" aria-label="発音の速さ">
-        <button data-speed="0.7">ゆっくり</button>
-        <button data-speed="0.85">少しゆっくり</button>
-        <button data-speed="1">ふつう</button>
-      </div>
+      <button class="primary" id="startToday">今日の学習を始める</button>
     </div>
     <input class="search" id="search" type="search" placeholder="単語を探す（日本語でもポルトガル語でも）">
-    <div id="searchResults" class="card" hidden style="margin-top:10px"></div>
-    <div id="catsWrap">
-      <h2>場面から選ぶ</h2>
-      <div class="cats" id="cats"></div>
-    </div>
+    <div id="searchResults" class="rows" hidden></div>
+    <div id="catsWrap"></div>
   </section>
 
   <section id="category" hidden>
     <div class="top">
-      <button class="ghost" data-go-home>← もどる</button>
+      <button class="back" data-go-home>‹ もどる</button>
       <span class="count" id="catCount"></span>
     </div>
     <h1 id="catName"></h1>
     <p class="sub" id="catDesc"></p>
     <button class="primary" id="startCat">この場面を学習する</button>
-    <div class="controls">
+    <div class="actions">
       <button class="ghost" id="startCatAll">全部カードで見る</button>
       <button class="ghost" id="testCat">この場面をテスト</button>
     </div>
-    <div class="card" id="catList"></div>
+    <div class="track" id="trackBox">
+      <button class="track-toggle" id="trackToggle" aria-label="連続再生"></button>
+      <div class="track-body">
+        <div class="track-head">
+          <span class="track-title">連続再生</span>
+          <span class="track-flow">ポ語 → 日本語 → ポ語</span>
+        </div>
+        <input class="track-seek" id="trackSeek" type="range" min="0" max="1000" value="0" aria-label="再生位置">
+        <div class="track-time"><span id="trackNow">0:00</span><span id="trackLength">0:00</span></div>
+      </div>
+      <audio id="track" preload="none"></audio>
+    </div>
+    <div class="rows" id="catList"></div>
   </section>
 
   <section id="study" hidden>
     <div class="top">
-      <button class="ghost" id="quitStudy">← やめる</button>
+      <button class="back" id="quitStudy">‹ やめる</button>
+      <div class="bar"><i id="studyBar"></i></div>
       <span class="count" id="studyCount"></span>
     </div>
-    <div class="card flash" id="flash" tabindex="0"></div>
+    <div class="flash" id="flash" tabindex="0"></div>
     <div class="rate" id="rate" hidden>
       <button class="again" data-rate="again">もう一度</button>
       <button class="hard" data-rate="hard">あやふや</button>
       <button class="good" data-rate="good">覚えた</button>
     </div>
-    <button class="primary" id="reveal" style="margin-top:12px">答えを見る</button>
+    <button class="primary" id="reveal" style="margin-top:14px">答えを見る</button>
     <div class="keys">スペース: 答え ／ 1・2・3: 評価 ／ P: 発音 ／ E: 例文 ／ S: 速さ切り替え</div>
   </section>
 
   <section id="list" hidden>
-    <div class="top">
-      <button class="ghost" data-go-home>← もどる</button>
+    <div class="top" style="margin-bottom:0">
+      <h1>全単語</h1>
       <span class="count" id="listCount"></span>
     </div>
     <div class="list-bar">
       <div class="chips" id="listChips"></div>
-      <div class="seg" role="group" aria-label="一覧の表示">
+      <div class="toggles" role="group" aria-label="一覧の表示">
         <button id="listToggleEx">例文を表示</button>
         <button id="listToggleJa">訳を隠す</button>
       </div>
@@ -281,78 +330,102 @@
   </section>
 
   <section id="testSetup" hidden>
-    <div class="top">
-      <button class="ghost" data-go-home>← もどる</button>
-    </div>
     <h1>テスト</h1>
     <p class="sub">結果は学習の復習予定には影響しません</p>
-    <div class="card">
-      <div class="field">
-        <label for="testScope">範囲</label>
-        <select class="pick" id="testScope"></select>
-      </div>
-      <div class="field">
-        <div class="label">形式</div>
-        <div class="seg" id="testFormatSeg" role="group" aria-label="テストの形式">
-          <button data-format="mean">意味を選ぶ</button>
-          <button data-format="pick">ポ語を選ぶ</button>
-          <button data-format="ear">聞いて選ぶ</button>
-          <button data-format="spell">つづりを書く</button>
-        </div>
-      </div>
-      <div class="field">
-        <div class="label">問題数</div>
-        <div class="seg" id="testCountSeg" role="group" aria-label="問題数">
-          <button data-count="10">10問</button>
-          <button data-count="20">20問</button>
-          <button data-count="50">50問</button>
-          <button data-count="0">全部</button>
-        </div>
-      </div>
-      <p class="count" id="testInfo"></p>
-      <button class="primary" id="startTest">テストを始める</button>
+    <div class="field">
+      <label for="testScope">範囲</label>
+      <select class="pick" id="testScope"></select>
     </div>
+    <div class="field">
+      <div class="label">形式</div>
+      <div class="seg two" id="testFormatSeg" role="group" aria-label="テストの形式">
+        <button data-format="mean">意味を選ぶ</button>
+        <button data-format="pick">ポ語を選ぶ</button>
+        <button data-format="ear">聞いて選ぶ</button>
+        <button data-format="spell">つづりを書く</button>
+      </div>
+    </div>
+    <div class="field">
+      <div class="label">問題数</div>
+      <div class="seg" id="testCountSeg" role="group" aria-label="問題数">
+        <button data-count="10">10問</button>
+        <button data-count="20">20問</button>
+        <button data-count="50">50問</button>
+        <button data-count="0">全部</button>
+      </div>
+    </div>
+    <button class="primary" id="startTest">テストを始める</button>
+    <p class="count" id="testInfo" style="text-align:center"></p>
   </section>
 
   <section id="test" hidden>
     <div class="top">
-      <button class="ghost" id="quitTest">← やめる</button>
+      <button class="back" id="quitTest">‹ やめる</button>
+      <div class="bar"><i id="testBar"></i></div>
       <span class="count" id="testProgress"></span>
     </div>
-    <div class="card flash" id="testPrompt" style="min-height:170px"></div>
+    <div class="flash short" id="testPrompt"></div>
     <div id="testAnswer"></div>
-    <div class="card feedback" id="testFeedback" hidden></div>
-    <button class="primary" id="testNext" style="margin-top:12px" hidden>次へ</button>
+    <div class="feedback" id="testFeedback" hidden></div>
+    <button class="primary" id="testNext" style="margin-top:14px" hidden>次へ</button>
     <div class="keys" id="testKeys"></div>
   </section>
 
   <section id="testResult" hidden>
-    <div class="card" style="text-align:center;margin-bottom:12px">
+    <div class="result">
       <div class="score" id="testScore"></div>
-      <p class="sub" id="testScoreText" style="margin-bottom:12px"></p>
-      <button class="primary" id="retryWrong">間違えた語だけもう一度</button>
-      <div class="nav2">
-        <button class="ghost" id="backToSetup">別のテスト</button>
-        <button class="ghost" data-go-home>ホームへ</button>
-      </div>
+      <p class="sub" id="testScoreText" style="margin-bottom:20px"></p>
+    </div>
+    <button class="primary" id="retryWrong">間違えた語だけもう一度</button>
+    <div class="nav2">
+      <button class="ghost" id="backToSetup">別のテスト</button>
+      <button class="ghost" data-go-home>ホームへ</button>
     </div>
     <div id="testWrongWrap">
       <h2>間違えた語</h2>
-      <div class="card" id="testWrongList"></div>
+      <div class="rows" id="testWrongList"></div>
+    </div>
+  </section>
+
+  <section id="settings" hidden>
+    <h1>設定</h1>
+    <p class="sub">学習カードの出し方と、発音の速さ</p>
+    <div class="field">
+      <div class="label">学習カードの出し方</div>
+      <div class="seg" id="modeSeg" role="group" aria-label="出題の形式">
+        <button data-mode="pt">ポ語を見る</button>
+        <button data-mode="ja">日本語から</button>
+        <button data-mode="ear">聞き取り</button>
+      </div>
+    </div>
+    <div class="field">
+      <div class="label">発音の速さ</div>
+      <div class="seg" id="speedSeg" role="group" aria-label="発音の速さ">
+        <button data-speed="0.7">ゆっくり</button>
+        <button data-speed="0.85">少しゆっくり</button>
+        <button data-speed="1">ふつう</button>
+      </div>
     </div>
   </section>
 
   <section id="done" hidden>
-    <div class="card" style="text-align:center;padding:40px 20px">
+    <div class="result" style="padding-top:64px">
       <h1>おつかれさまでした</h1>
-      <p class="sub" id="doneText"></p>
+      <p class="sub" id="doneText" style="margin-bottom:28px"></p>
       <button class="primary" data-go-home>ホームへ</button>
     </div>
   </section>
 </main>
+<nav class="tabs" id="tabs" aria-label="メインメニュー">
+  <button data-tab="home">学習</button>
+  <button data-tab="list">一覧</button>
+  <button data-tab="test">テスト</button>
+  <button data-tab="settings">設定</button>
+</nav>
 <div class="toast" id="toast" hidden></div>
 
 <script src="words.js"></script>
+<script src="tracks.js"></script>
 <script>
   const STORE_KEY = 'pt-vocab-v1';
   const NEW_PER_DAY = 10;
@@ -360,6 +433,19 @@
   const INTERVALS = [1, 3, 7, 14, 30, 60];
   const KNOWN_BOX = 3;
   const SPEEDS = [0.7, 0.85, 1];
+  const CATEGORY_GROUPS = [
+    ['はじめの一歩', ['basic', 'num', 'verb', 'word']],
+    ['手続きとお金', ['gov', 'money', 'mail']],
+    ['住まい', ['lease', 'repair', 'life', 'diy']],
+    ['健康と安全', ['health', 'sos']],
+    ['買い物と外出', ['shop', 'market', 'move', 'trip', 'hotel', 'car']],
+    ['人とのやりとり', ['chat', 'feel', 'social', 'complain', 'phone']],
+    ['家族と仕事', ['school', 'work', 'shoot']],
+  ];
+  const TAB_OF_SCREEN = {
+    home: 'home', category: 'home', done: 'home', list: 'list',
+    testSetup: 'test', testResult: 'test', settings: 'settings',
+  };
 
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -381,8 +467,10 @@
     return a;
   };
 
+  const ORDERED_CATEGORIES = CATEGORY_GROUPS.flatMap(([, ids]) => ids.map((id) => PT_CATEGORIES.find((c) => c.id === id)));
+
   // 語の一覧。進捗は読み上げ文から作った id で持つ
-  const CARDS = PT_CATEGORIES.flatMap((cat) => cat.words.map(([pt, ja, exPt, exJa, note]) => ({
+  const CARDS = ORDERED_CATEGORIES.flatMap((cat) => cat.words.map(([pt, ja, exPt, exJa, note]) => ({
     id: ptAudioId(pt), cat: cat.id, pt, ja, exPt, exJa, note,
   })));
 
@@ -437,7 +525,42 @@
     speechSynthesis.speak(utterance);
   }
 
+  function applySpeedToTrack() {
+    $('track').defaultPlaybackRate = store.speed;
+    $('track').playbackRate = store.speed;
+  }
+
+  function loadTrack(cat) {
+    const info = PT_TRACKS[cat.id];
+    $('track').pause();
+    $('trackBox').hidden = !info;
+    if (!info) return;
+    $('track').src = `tracks/${cat.id}.m4a?v=${info.version}`;
+    $('track').dataset.title = cat.name;
+    $('track').dataset.seconds = info.seconds;
+    $('trackSeek').value = 0;
+    $('trackNow').textContent = '0:00';
+    $('trackLength').textContent = formatTime(info.seconds);
+    applySpeedToTrack();
+  }
+
+  const formatTime = (sec) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, '0')}`;
+  const trackLength = () => $('track').duration || Number($('track').dataset.seconds);
+
+  function seekTrack() {
+    const track = $('track');
+    const time = ($('trackSeek').value / 1000) * trackLength();
+    $('trackNow').textContent = formatTime(time);
+    if (track.readyState >= 1) {
+      track.currentTime = time;
+    } else {
+      track.addEventListener('loadedmetadata', () => { track.currentTime = time; }, { once: true });
+      track.load();
+    }
+  }
+
   function play(text) {
+    $('track').pause();
     player.onerror = () => speakFallback(text);
     player.src = `${PT_AUDIO_DIR}/${ptAudioId(text)}.mp3`;
     player.defaultPlaybackRate = store.speed;
@@ -449,46 +572,59 @@
 
   /* 画面 */
   function show(id) {
-    for (const name of ['home', 'category', 'study', 'done', 'list', 'testSetup', 'test', 'testResult']) $(name).hidden = name !== id;
+    if (id !== 'category') $('track').pause();
+    for (const name of ['home', 'category', 'study', 'done', 'list', 'testSetup', 'test', 'testResult', 'settings']) $(name).hidden = name !== id;
+    $('tabs').hidden = !TAB_OF_SCREEN[id];
+    for (const btn of $('tabs').querySelectorAll('button')) {
+      if (btn.dataset.tab === TAB_OF_SCREEN[id]) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
+    }
     window.scrollTo(0, 0);
   }
 
   function renderHome() {
     const due = CARDS.filter(isDue).length;
+    const fresh = Math.min(newLeftToday(), CARDS.filter(isNew).length);
+    $('tTotal').textContent = due + fresh;
     $('tDue').textContent = due;
-    $('tNew').textContent = newLeftToday();
-    $('tKnown').textContent = `${CARDS.filter(isKnown).length}/${CARDS.length}`;
-    $('startToday').disabled = due + Math.min(newLeftToday(), CARDS.filter(isNew).length) === 0;
+    $('tNew').textContent = fresh;
+    $('tKnown').textContent = `${CARDS.filter(isKnown).length} / ${CARDS.length}`;
+    $('startToday').disabled = due + fresh === 0;
     $('startToday').textContent = $('startToday').disabled ? '今日の分は終わりました' : '今日の学習を始める';
+    $('catsWrap').innerHTML = CATEGORY_GROUPS.map(([name, ids]) => `<h2>${esc(name)}</h2>
+      <div class="cats">${ids.map(catRowHtml).join('')}</div>`).join('');
+    show('home');
+  }
+
+  function catRowHtml(id) {
+    const cat = PT_CATEGORIES.find((c) => c.id === id);
+    const cards = CARDS.filter((c) => c.cat === id);
+    const known = cards.filter(isKnown).length;
+    const dueHere = cards.filter(isDue).length;
+    return `<button class="cat" data-cat="${id}">
+      <span class="cat-name">${esc(cat.name)}</span>
+      <span class="cat-meta">${dueHere ? `<span class="cat-due">復習 ${dueHere}</span>` : ''}${known} / ${cards.length}</span>
+      <span class="cat-bar"><i style="width:${(known / cards.length) * 100}%"></i></span>
+    </button>`;
+  }
+
+  function openSettings() {
     for (const btn of $('modeSeg').querySelectorAll('button')) {
       btn.setAttribute('aria-pressed', String(btn.dataset.mode === store.mode));
     }
     renderSpeedSeg();
-    $('cats').innerHTML = PT_CATEGORIES.map((cat) => {
-      const cards = CARDS.filter((c) => c.cat === cat.id);
-      const known = cards.filter(isKnown).length;
-      const dueHere = cards.filter(isDue).length;
-      return `<button class="cat" data-cat="${cat.id}">
-        <strong>${esc(cat.name)}</strong>
-        <small>${esc(cat.desc)}</small>
-        <div class="meta">${known}/${cards.length}語${dueHere ? ` ・ 復習 ${dueHere}` : ''}</div>
-        <div class="progress"><div style="width:${(known / cards.length) * 100}%"></div></div>
-      </button>`;
-    }).join('');
-    show('home');
+    show('settings');
   }
 
   function rowHtml(c) {
     const example = c.exPt
-      ? `<div class="ex"><button class="play small" data-say="${esc(c.exPt)}" aria-label="例文を再生">▶</button>${esc(c.exPt)}　${esc(c.exJa)}</div>`
+      ? `<div class="ex"><button class="play small" data-say="${esc(c.exPt)}" aria-label="例文を再生"></button>${esc(c.exPt)}<span class="ex-ja">${esc(c.exJa)}</span></div>`
       : '';
     return `<div class="row">
-      <button class="play" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button>
-      <div>
-        <div class="pt">${esc(c.pt)}</div>
-        <div class="ja">${esc(c.ja)}</div>
-        ${example}
-      </div>
+      <button class="play" data-say="${esc(c.pt)}" aria-label="発音を再生"></button>
+      <div class="pt">${esc(c.pt)}</div>
+      <div class="ja">${esc(c.ja)}</div>
+      ${example}
     </div>`;
   }
 
@@ -499,6 +635,7 @@
     $('catDesc').textContent = cat.desc;
     $('catCount').textContent = `${cards.length}語`;
     $('catList').innerHTML = cards.map(rowHtml).join('');
+    loadTrack(cat);
     const queue = pickQueue(cards);
     $('startCat').disabled = queue.length === 0;
     $('startCat').textContent = queue.length ? `この場面を学習する（${queue.length}語）` : 'この場面の今日の分は終わりました';
@@ -526,6 +663,7 @@
     const c = session.queue[0];
     session.revealed = false;
     $('studyCount').textContent = `残り ${session.queue.length}`;
+    $('studyBar').style.width = `${(1 - session.queue.length / session.total) * 100}%`;
     $('rate').hidden = true;
     $('reveal').hidden = false;
     const mode = store.mode;
@@ -543,8 +681,8 @@
 
   function audioButtons(c, withExample = false) {
     return `<div class="audio">
-      <button class="play big" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button>
-      ${withExample && c.exPt ? `<button class="ghost" data-say="${esc(c.exPt)}">▶ 例文</button>` : ''}
+      <button class="play big" data-say="${esc(c.pt)}" aria-label="発音を再生"></button>
+      ${withExample && c.exPt ? `<button class="ghost" data-say="${esc(c.exPt)}">例文を聞く</button>` : ''}
       <button class="ghost" data-speed-next>速さ ${store.speed}倍</button>
     </div>`;
   }
@@ -599,8 +737,8 @@
   /* 一覧 */
   function openList() {
     $('listCount').textContent = `全${CARDS.length}語`;
-    $('listChips').innerHTML = PT_CATEGORIES.map((cat) => `<button class="ghost" data-jump="${cat.id}">${esc(cat.name)}</button>`).join('');
-    $('listBody').innerHTML = PT_CATEGORIES.map((cat) => `<div class="list-group" id="group-${cat.id}">
+    $('listChips').innerHTML = ORDERED_CATEGORIES.map((cat) => `<button class="ghost" data-jump="${cat.id}">${esc(cat.name)}</button>`).join('');
+    $('listBody').innerHTML = ORDERED_CATEGORIES.map((cat) => `<div class="list-group" id="group-${cat.id}">
       <h2>${esc(cat.name)}</h2>
       ${CARDS.filter((c) => c.cat === cat.id).map(listRowHtml).join('')}
     </div>`).join('');
@@ -610,10 +748,10 @@
 
   function listRowHtml(c) {
     const example = c.exPt
-      ? `<div class="ex"><button class="play small" data-say="${esc(c.exPt)}" aria-label="例文を再生">▶</button>${esc(c.exPt)}　${esc(c.exJa)}</div>`
+      ? `<div class="ex"><button class="play small" data-say="${esc(c.exPt)}" aria-label="例文を再生"></button>${esc(c.exPt)}<span class="ex-ja">${esc(c.exJa)}</span></div>`
       : '';
     return `<div class="list-row">
-      <button class="play" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button>
+      <button class="play" data-say="${esc(c.pt)}" aria-label="発音を再生"></button>
       <div class="pt">${esc(c.pt)}${isKnown(c) ? '<span class="known">✓</span>' : ''}</div>
       <div class="ja">${esc(c.ja)}</div>
       ${example}
@@ -725,7 +863,7 @@
     $('testScope').innerHTML = [
       '<option value="all">全部の語</option>',
       '<option value="learned">学習した語だけ</option>',
-      ...PT_CATEGORIES.map((cat) => `<option value="${cat.id}">${esc(cat.name)}</option>`),
+      ...ORDERED_CATEGORIES.map((cat) => `<option value="${cat.id}">${esc(cat.name)}</option>`),
     ].join('');
     $('testScope').value = scope;
     renderTestSetup();
@@ -759,11 +897,12 @@
     const c = test.cards[test.i];
     test.answered = false;
     $('testProgress').textContent = `${test.i + 1} / ${test.cards.length}`;
+    $('testBar').style.width = `${(test.i / test.cards.length) * 100}%`;
     $('testFeedback').hidden = true;
     $('testNext').hidden = true;
     const f = test.format;
     if (f === 'ear') {
-      $('testPrompt').innerHTML = `<div class="audio" style="margin-top:0"><button class="play big" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button></div><div class="hint">聞こえた語の意味は？</div>`;
+      $('testPrompt').innerHTML = `<div class="audio" style="margin-top:0"><button class="play big" data-say="${esc(c.pt)}" aria-label="発音を再生"></button></div><div class="hint">聞こえた語の意味は？</div>`;
     } else {
       $('testPrompt').innerHTML = `<div class="main">${esc(f === 'mean' ? c.pt : c.ja)}</div>`;
     }
@@ -788,10 +927,10 @@
     test.answered = true;
     if (!ok) test.wrong.push(c);
     const example = c.exPt
-      ? `<div class="ex-pt"><button class="play small" data-say="${esc(c.exPt)}" aria-label="例文を再生">▶</button>${esc(c.exPt)}</div><div class="ex-ja">${esc(c.exJa)}</div>`
+      ? `<div class="ex-pt"><button class="play small" data-say="${esc(c.exPt)}" aria-label="例文を再生"></button>${esc(c.exPt)}</div><div class="ex-ja">${esc(c.exJa)}</div>`
       : '';
     $('testFeedback').innerHTML = `<div class="verdict ${ok ? 'ok' : 'ng'}">${ok ? '正解' : '不正解'}${note ? `（${esc(note)}）` : ''}</div>
-      <div class="pt"><button class="play small" data-say="${esc(c.pt)}" aria-label="発音を再生">▶</button>${esc(c.pt)}</div>
+      <div class="pt"><button class="play small" data-say="${esc(c.pt)}" aria-label="発音を再生"></button>${esc(c.pt)}</div>
       <div class="ja">${esc(c.ja)}</div>${example}`;
     $('testFeedback').hidden = false;
     $('testNext').hidden = false;
@@ -859,8 +998,8 @@
     const cat = e.target.closest('[data-cat]');
     if (cat) return openCategory(cat.dataset.cat);
     if (e.target.closest('[data-go-home]')) return renderHome();
-    const scope = e.target.closest('[data-test-scope]');
-    if (scope) return openTestSetup(scope.dataset.testScope);
+    const tab = e.target.closest('[data-tab]');
+    if (tab) return { home: renderHome, list: openList, test: () => openTestSetup(), settings: openSettings }[tab.dataset.tab]();
     const jump = e.target.closest('[data-jump]');
     if (jump) return $(`group-${jump.dataset.jump}`).scrollIntoView();
     const format = e.target.closest('[data-format]');
@@ -892,7 +1031,7 @@
     if (mode) {
       store.mode = mode.dataset.mode;
       saveStore();
-      return renderHome();
+      return openSettings();
     }
     const rate = e.target.closest('[data-rate]');
     if (rate) rateCard(rate.dataset.rate);
@@ -901,6 +1040,7 @@
   function setSpeed(speed) {
     store.speed = speed;
     saveStore();
+    applySpeedToTrack();
     for (const btn of document.querySelectorAll('[data-speed-next]')) btn.textContent = `速さ ${speed}倍`;
     renderSpeedSeg();
   }
@@ -923,7 +1063,21 @@
   $('reveal').onclick = revealCard;
   $('quitStudy').onclick = () => { session = null; renderHome(); };
   $('search').oninput = renderSearch;
-  $('openList').onclick = openList;
+  $('trackToggle').onclick = () => ($('track').paused ? $('track').play() : $('track').pause());
+  $('trackSeek').oninput = seekTrack;
+  $('track').onpause = () => $('trackToggle').classList.remove('playing');
+  $('track').ontimeupdate = () => {
+    $('trackSeek').value = ($('track').currentTime / trackLength()) * 1000;
+    $('trackNow').textContent = formatTime($('track').currentTime);
+  };
+  $('track').onplay = () => {
+    $('trackToggle').classList.add('playing');
+    player.pause();
+    applySpeedToTrack();
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({ title: $('track').dataset.title, artist: '移住のポルトガル語' });
+    }
+  };
   $('listToggleEx').onclick = () => { store.listEx = !store.listEx; saveStore(); applyListView(); };
   $('listToggleJa').onclick = () => { store.listHide = !store.listHide; saveStore(); applyListView(); };
   $('testScope').onchange = renderTestSetup;
